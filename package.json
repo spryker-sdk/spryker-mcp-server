@@ -1,27 +1,75 @@
 {
-  "name": "js-mcp-server",
+  "name": "@spryker-sdk/spryker-mcp-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "MCP server for Spryker e-commerce API integration",
   "type": "module",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "bin": {
+    "spryker-mcp-server": "./bin/spryker-mcp-server.js"
+  },
+  "files": [
+    "dist/src/",
+    "bin/",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/js-mcp-server.git"
+    "url": "https://github.com/spryker-sdk/spryker-mcp-server.git"
   },
+  "bugs": {
+    "url": "https://github.com/spryker-sdk/spryker-mcp-server/issues"
+  },
+  "homepage": "https://github.com/spryker-sdk/spryker-mcp-server#readme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "dev": "tsx src/index.ts",
+    "start": "node bin/spryker-mcp-server.js",
+    "start:stdio": "node bin/spryker-mcp-server.js --transport stdio",
+    "start:http": "node bin/spryker-mcp-server.js --transport http --port 3000",
+    "start:sse": "node bin/spryker-mcp-server.js --transport sse --port 3000",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist coverage",
+    "validate": "npm run type-check && npm run lint && npm run test",
+    "prepublishOnly": "npm run clean && npm run build && npm run test",
+    "prepare": "npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "spryker",
+    "e-commerce",
+    "api",
+    "integration",
+    "cli"
+  ],
+  "author": "Spryker SDK Team",
+  "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
     "axios": "^1.9.0",
     "dotenv": "^16.5.0",
-    "express": "^5.1.0",
     "zod": "^3.25.23"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.17.51",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.1.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
   }
 }

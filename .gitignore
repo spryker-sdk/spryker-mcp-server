@@ -89,7 +89,7 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+# dist - commented out because we need compiled files for npm package
 
 # Gatsby files
 .cache/
@@ -151,7 +151,7 @@ Thumbs.db
 
 # Build outputs
 build/
-dist/
+# dist/ - commented out because we need compiled TypeScript files for npm package
 lib/
 
 # Test outputs

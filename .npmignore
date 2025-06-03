@@ -1,0 +1,58 @@
+# Source files (only include compiled dist/)
+src/
+tests/
+
+# Compiled test files in dist/
+dist/tests/
+
+# Build artifacts and temp files
+coverage/
+*.tsbuildinfo
+.nyc_output/
+.vscode/
+
+# Development and testing
+.env
+.env.*
+!.env.example
+jest.config.json
+tsconfig.json
+tsconfig.test.json
+.eslintrc.json
+
+# Git and version control
+.git/
+.gitignore
+
+# Development dependencies and tools
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+.yarn/
+
+# Test files and scripts
+test-*.js
+*.test.js
+*.spec.js
+guest-checkout-test.js
+babel.config.js
+
+# Documentation build artifacts
+docs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+*.swp
+*.swo
+*~
+.idea/
+*.sublime-*
+
+# Temporary files
+tmp/
+temp/
