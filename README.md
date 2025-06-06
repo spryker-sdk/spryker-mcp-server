@@ -1,12 +1,10 @@
 # Spryker MCP Server
 
-A professional Model Context Protocol (MCP) server that provides seamless integration with Spryker e-commerce platform APIs. This server enables AI assistants to interact with Spryker's comprehensive e-commerce functionality through standardized MCP tools.
+A Model Context Protocol (MCP) server that provides seamless integration with Spryker e-commerce platform APIs. This server enables AI assistants to interact with Spryker's e-commerce functionality through standardized MCP tools.
 
 ## ⚠️ DEMO PREVIEW DISCLAIMER
 
 **This is a demo preview repository showcasing the capabilities of Spryker with Model Context Protocol (MCP).**
-
-🚫 **NOT FOR PRODUCTION USE** 🚫
 
 This repository is intended for:
 - **Demonstration purposes only**
@@ -35,11 +33,11 @@ For production implementations, please consult with Spryker's professional servi
 - **Multiple Transport Support**: stdio, HTTP, and SSE transports for flexible integration
 - **TypeScript**: Full type safety with strict compilation settings
 - **Modern Architecture**: Clean separation of concerns with dependency injection
-- **Robust Error Handling**: Comprehensive error tracking and recovery
+- **Robust Error Handling**: Error tracking and recovery
 - **Structured Logging**: JSON-based logging with multiple levels and metadata
 - **Configuration Management**: Environment-based configuration with validation
 - **API Resilience**: Retry logic, timeouts, and graceful degradation
-- **Comprehensive Testing**: Unit and integration test coverage
+- **Testing**: Unit and integration test coverage
 
 ## 📋 Prerequisites
 
@@ -184,6 +182,8 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
+See [Claude Desktop MCP Integration](https://modelcontextprotocol.io/quickstart/user) for more details on MCP integration with Claude Desktop.
+
 ### HTTP/SSE Transport Integration
 For web applications using HTTP or SSE transport:
 
@@ -222,9 +222,11 @@ Add to `.vscode/mcp.json`:
 }
 ```
 
+See [VS Code MCP Extension](https://aka.ms/vscode-add-mcp) for more details on MCP integration with VS Code.
+
 ## 🔧 Available Tools
 
-The server provides 11 comprehensive MCP tools for e-commerce operations:
+The server provides 11 MCP tools for e-commerce operations:
 
 ### Product Management
 - **Product Search** (`product-search`) - Advanced product catalog search with filtering
@@ -376,7 +378,7 @@ Retrieve order details and history.
 
 ## 🎯 Available Prompts
 
-The server includes 5 comprehensive prompts that provide context-aware guidance for different e-commerce scenarios. Each prompt is designed to help AI assistants understand how to effectively use the available tools.
+The server includes 5 prompts that provide context-aware guidance for different e-commerce scenarios. Each prompt is designed to help AI assistants understand how to effectively use the available tools.
 
 ### Product Search (`product-search`)
 Guides users through product discovery and search operations.
@@ -511,17 +513,16 @@ npm run clean
 - TypeScript with strict type checking
 - ESLint configuration with recommended rules
 - Conventional commit messages
-- Comprehensive JSDoc documentation
-- Good test coverage for core functionality (current: ~70%)
+- JSDoc documentation
+- Good test coverage for core functionality (current: ~94%)
 
 ## 📚 API Reference
 
 ### Spryker API Compatibility
 This server is compatible with Spryker Commerce OS Glue API:
-- API Version: 2.0+
+- API Version: Latest stable version
 - Authentication: Bearer tokens
 - Response Format: JSON:API specification
-- Error Handling: RFC 7807 Problem Details
 
 ### Error Handling
 All tools return standardized error responses:
@@ -534,44 +535,16 @@ All tools return standardized error responses:
 }
 ```
 
-## 🔒 Security
-
-### Security Features
-- Input validation on all parameters
-- SQL injection prevention through parameterized queries
-- Rate limiting on API requests
-- Secure token handling
-- Environment variable validation
-
-### Best Practices
-- Never log sensitive information (passwords, tokens)
-- Use HTTPS for all external communications
-- Validate all user inputs
-- Implement proper error handling without information leakage
-
 ## 📖 Changelog
 
-### Version 1.0.0 (Current)
+### Version 0.0.1 (Current)
 - ✅ Initial TypeScript implementation
 - ✅ Core Spryker API integration
 - ✅ Eleven essential MCP tools (product search, authentication, cart management, checkout, order management)
 - ✅ Five contextual MCP prompts for e-commerce guidance
-- ✅ Comprehensive error handling and logging
+- ✅ Error handling and logging
 - ✅ Configuration management with validation
 - ✅ Multiple transport support (stdio, HTTP, SSE)
-- ✅ Production-ready architecture
-
-### Planned Features
-- 🔄 Advanced product filtering and search enhancements
-- 🔄 Enhanced order management and tracking
-- 🔄 Inventory management tools
-- 🔄 Customer profile management
-- 🔄 Wishlist operations
-- 🔄 Promotion and discount handling
-- 🔄 Multi-language support
-- 🔄 Enhanced test coverage (current: ~70%)
-- 🔄 Performance monitoring
-- 🔄 Docker containerization
 
 ## 📄 License
 
@@ -582,7 +555,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ### Getting Help
 - **Documentation**: Check this README and inline code documentation
 - **Issues**: [GitHub Issues](https://github.com/yourusername/spryker-mcp-server/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/spryker-mcp-server/discussions)
 
 ### Common Issues
 1. **Connection Errors**: Verify `SPRYKER_API_BASE_URL` is correct and accessible
@@ -590,8 +562,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 3. **Tool Not Found**: Check tool registration in `src/tools/index.ts`
 
 ---
-
-**Built with ❤️ for the Spryker and MCP communities**
 
 ## 🔧 Logging & Debugging
 
