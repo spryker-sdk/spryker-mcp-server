@@ -23,11 +23,22 @@ For production implementations, please consult with Spryker's professional servi
 ## 🚀 Features
 
 ### Core Capabilities
-- **Product Management**: Search and retrieve product information with advanced filtering
-- **Shopping Cart Operations**: Add, remove, and manage items in customer carts
-- **Order Processing**: Handle checkout workflows and order management
-- **Customer Authentication**: Secure user authentication and session management
-- **Guest User Support**: Anonymous shopping cart and checkout functionality
+#### Product Discovery & Search
+- Natural language product search ("Find me wireless headphones under $200")
+- Intelligent filtering, sorting, comparison and recommendations
+- Real-time inventory and pricing information
+#### Shopping Cart Management
+- Add/remove items with conversational commands
+- Cart optimization suggestions
+- Support for both guest and authenticated customers
+#### Checkout & Orders
+- AI-guided checkout assistance
+- Payment and shipping option recommendations  
+- Order tracking and history access for authenticated customers
+- Support for both guest and authenticated customers
+#### Customer Experience
+- Customer authentication
+- Guest customers supported
 
 ### Technical Excellence
 - **Multiple Transport Support**: stdio, HTTP, and SSE transports for flexible integration
