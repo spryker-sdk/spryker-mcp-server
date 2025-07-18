@@ -97,6 +97,7 @@ export class HttpMCPServer implements MCPServer {
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
       res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, mcp-session-id');
+      res.setHeader('Access-Control-Expose-Headers', 'mcp-session-id');
 
       if (req.method === 'OPTIONS') {
         res.writeHead(200);
