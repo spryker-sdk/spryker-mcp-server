@@ -81,7 +81,7 @@ export class HttpMCPServer {
             // Enable CORS
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, mcp-session-id');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, mcp-protocol-version, mcp-session-id');
             res.setHeader('Access-Control-Expose-Headers', 'mcp-session-id');
             if (req.method === 'OPTIONS') {
                 res.writeHead(200);
@@ -225,7 +225,7 @@ export class HttpMCPServer {
                 await server.connect(transport);
                 // Handle the initialization request
                 // For VS Code compatibility, we need to handle the Accept header issue
-                // VS Code might not send the required "application/json, text/event-stream" 
+                // VS Code might not send the required "application/json, text/event-stream"
                 const originalAccept = req.headers.accept;
                 if (!originalAccept || !originalAccept.includes('text/event-stream')) {
                     // Temporarily modify the Accept header for VS Code compatibility
