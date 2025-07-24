@@ -36,19 +36,19 @@ export class HttpMCPServer implements MCPServer {
     try {
       // Validate environment configuration
       validateEnvironment();
-      
+
       // Initialize HTTP server
       await this.initializeHttpServer();
-      
+
       logger.info(`Spryker MCP Server started successfully`);
       logger.info(`Server Name: ${config.server.name}`);
       logger.info(`Server Version: ${config.server.version}`);
       logger.info(`API Base URL: ${config.api.baseUrl}`);
       logger.info(`HTTP Server: http://${this.options.httpHost}:${this.options.httpPort}`);
       logger.info(`MCP Endpoint: ${this.options.httpEndpoint}`);
-      
+
     } catch (error) {
-      logger.error('Failed to start HTTP server:', 
+      logger.error('Failed to start HTTP server:',
         error instanceof Error ? error : new Error(String(error)));
       throw error;
     }
@@ -59,19 +59,19 @@ export class HttpMCPServer implements MCPServer {
       this.httpServer = createServer((req: IncomingMessage, res: ServerResponse) => {
         // Wrap the handler in a try-catch to prevent unhandled promise rejections
         this.handleHttpRequest(req, res).catch((error) => {
-          logger.error('HTTP request handler error:', 
+          logger.error('HTTP request handler error:',
             error instanceof Error ? error : new Error(String(error)));
-          
+
           // Only send error response if headers haven't been sent
           if (!res.headersSent) {
             try {
               res.writeHead(500, { 'Content-Type': 'application/json' });
-              res.end(JSON.stringify({ 
+              res.end(JSON.stringify({
                 error: 'Internal server error',
                 message: error instanceof Error ? error.message : 'Unknown error'
               }));
             } catch (responseError) {
-              logger.error('Failed to send error response:', 
+              logger.error('Failed to send error response:',
                 responseError instanceof Error ? responseError : new Error(String(responseError)));
             }
           }
@@ -96,7 +96,8 @@ export class HttpMCPServer implements MCPServer {
       // Enable CORS
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, mcp-session-id');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, mcp-protocol-version, mcp-session-id');
+      res.setHeader('Access-Control-Expose-Headers', 'mcp-session-id');
 
       if (req.method === 'OPTIONS') {
         res.writeHead(200);
@@ -105,7 +106,7 @@ export class HttpMCPServer implements MCPServer {
       }
 
       const url = new URL(req.url || '/', `http://${req.headers.host}`);
-      
+
       if (url.pathname === this.options.httpEndpoint) {
         if (req.method === 'POST') {
           // Handle MCP JSON-RPC messages via POST
@@ -116,32 +117,32 @@ export class HttpMCPServer implements MCPServer {
               try {
                 const message = JSON.parse(body);
                 logger.debug('Received MCP message via POST:', message);
-                
+
                 // Handle MCP requests using StreamableHTTPServerTransport
                 await this.handleMCPRequest(req, res, message);
               } catch (parseError) {
-                logger.error('Failed to parse POST body:', 
+                logger.error('Failed to parse POST body:',
                   parseError instanceof Error ? parseError : new Error(String(parseError)));
                 res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ 
+                res.end(JSON.stringify({
                   jsonrpc: '2.0',
-                  error: { 
-                    code: -32700, 
-                    message: 'Parse error: Invalid JSON' 
+                  error: {
+                    code: -32700,
+                    message: 'Parse error: Invalid JSON'
                   },
                   id: null
                 }));
               }
             });
           } catch (postError) {
-            logger.error('POST request handling failed:', 
+            logger.error('POST request handling failed:',
               postError instanceof Error ? postError : new Error(String(postError)));
             res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ 
+            res.end(JSON.stringify({
               jsonrpc: '2.0',
-              error: { 
-                code: -32603, 
-                message: 'Internal error' 
+              error: {
+                code: -32603,
+                message: 'Internal error'
               },
               id: null
             }));
@@ -149,7 +150,7 @@ export class HttpMCPServer implements MCPServer {
         } else if (req.method === 'GET') {
           // For GET requests, provide information about the MCP endpoint
           res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ 
+          res.end(JSON.stringify({
             message: 'MCP server is running',
             transport: this.options.transport,
             endpoint: this.options.httpEndpoint,
@@ -157,11 +158,11 @@ export class HttpMCPServer implements MCPServer {
           }));
         } else {
           res.writeHead(405, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ 
+          res.end(JSON.stringify({
             jsonrpc: '2.0',
-            error: { 
-              code: -32000, 
-              message: 'Method not allowed' 
+            error: {
+              code: -32000,
+              message: 'Method not allowed'
             },
             id: null
           }));
@@ -169,33 +170,33 @@ export class HttpMCPServer implements MCPServer {
       } else if (url.pathname === '/health') {
         // Health check endpoint
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ 
-          status: 'healthy', 
+        res.end(JSON.stringify({
+          status: 'healthy',
           transport: this.options.transport,
           timestamp: new Date().toISOString()
         }));
       } else {
         res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ 
+        res.end(JSON.stringify({
           jsonrpc: '2.0',
-          error: { 
-            code: -32000, 
-            message: 'Not found' 
+          error: {
+            code: -32000,
+            message: 'Not found'
           },
           id: null
         }));
       }
     } catch (error) {
-      logger.error('Request handling error:', 
+      logger.error('Request handling error:',
         error instanceof Error ? error : new Error(String(error)));
-      
+
       if (!res.headersSent) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ 
+        res.end(JSON.stringify({
           jsonrpc: '2.0',
-          error: { 
-            code: -32603, 
-            message: 'Internal error' 
+          error: {
+            code: -32603,
+            message: 'Internal error'
           },
           id: null
         }));
@@ -216,7 +217,7 @@ export class HttpMCPServer implements MCPServer {
       } else if (!sessionId && isInitializeRequest(message)) {
         // New initialization request - create new transport with JSON response mode
         logger.info('Creating new MCP transport for initialization request');
-        
+
         transport = new StreamableHTTPServerTransport({
           sessionIdGenerator: () => randomUUID(),
           enableJsonResponse: true, // Enable JSON response mode for HTTP
@@ -246,19 +247,19 @@ export class HttpMCPServer implements MCPServer {
 
         // Connect the transport to the server BEFORE handling the request
         await server.connect(transport as any);
-        
+
         // Handle the initialization request
         // For VS Code compatibility, we need to handle the Accept header issue
-        // VS Code might not send the required "application/json, text/event-stream" 
+        // VS Code might not send the required "application/json, text/event-stream"
         const originalAccept = req.headers.accept;
         if (!originalAccept || !originalAccept.includes('text/event-stream')) {
           // Temporarily modify the Accept header for VS Code compatibility
           req.headers.accept = 'application/json, text/event-stream';
           logger.debug('Modified Accept header for VS Code compatibility');
         }
-        
+
         await transport.handleRequest(req, res, message);
-        
+
         // Restore original header
         req.headers.accept = originalAccept;
         return;
@@ -284,15 +285,15 @@ export class HttpMCPServer implements MCPServer {
         req.headers.accept = 'application/json, text/event-stream';
         logger.debug('Modified Accept header for existing session VS Code compatibility');
       }
-      
+
       await transport.handleRequest(req, res, message);
-      
+
       // Restore original header
       req.headers.accept = originalAccept;
     } catch (error) {
-      logger.error('MCP request handling error:', 
+      logger.error('MCP request handling error:',
         error instanceof Error ? error : new Error(String(error)));
-      
+
       if (!res.headersSent) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
@@ -309,7 +310,7 @@ export class HttpMCPServer implements MCPServer {
 
   async shutdown(): Promise<void> {
     logger.info('Shutting down HTTP MCP Server...');
-    
+
     try {
       // Close all active transports
       for (const [sessionId, transport] of this.transports) {
@@ -317,12 +318,12 @@ export class HttpMCPServer implements MCPServer {
           await transport.close();
           logger.debug(`Closed transport for session: ${sessionId}`);
         } catch (error) {
-          logger.error(`Error closing transport for session ${sessionId}:`, 
+          logger.error(`Error closing transport for session ${sessionId}:`,
             error instanceof Error ? error : new Error(String(error)));
         }
       }
       this.transports.clear();
-      
+
       // Close HTTP server if it exists
       if (this.httpServer) {
         await new Promise<void>((resolve, reject) => {
@@ -336,10 +337,10 @@ export class HttpMCPServer implements MCPServer {
         });
         logger.info('HTTP server stopped');
       }
-      
+
       logger.info('HTTP server shutdown complete');
     } catch (error) {
-      logger.error('Error during HTTP server shutdown:', 
+      logger.error('Error during HTTP server shutdown:',
         error instanceof Error ? error : new Error(String(error)));
     }
   }
