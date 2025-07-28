@@ -47,7 +47,7 @@ async function addToCart(args) {
                 cartResponse = newCartResponse.data;
             }
         }
-        catch (error) {
+        catch {
             // If cart retrieval fails, try to create a new one
             const newCartResponse = await apiService.post('carts', {
                 data: {

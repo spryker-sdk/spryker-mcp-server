@@ -266,7 +266,7 @@ describe('HttpMCPServer', () => {
             await httpServer.handleHttpRequest(mockReq, mockRes);
             expect(mockRes.setHeader).toHaveBeenCalledWith('Access-Control-Allow-Origin', '*');
             expect(mockRes.setHeader).toHaveBeenCalledWith('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-            expect(mockRes.setHeader).toHaveBeenCalledWith('Access-Control-Allow-Headers', 'Content-Type, Authorization, mcp-session-id');
+            expect(mockRes.setHeader).toHaveBeenCalledWith('Access-Control-Allow-Headers', 'Content-Type, Authorization, mcp-protocol-version, mcp-session-id');
             expect(mockRes.writeHead).toHaveBeenCalledWith(200);
             expect(mockRes.end).toHaveBeenCalled();
         });
