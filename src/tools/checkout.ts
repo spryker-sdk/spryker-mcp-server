@@ -3,7 +3,6 @@
  */
 
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import { ApiError, SprykerApiService } from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 import type { SprykerTool } from './types.js';
@@ -12,7 +11,7 @@ const CheckoutSchema = z.object({
   token: z.string().describe('Authentication token for the customer'),
   cartId: z.string().describe('ID of the cart to checkout'),
   customerData: z.object({
-    email: z.string().email().describe('Customer email address (important to have proper data to get order confirmation email)'),
+    email: z.email().describe('Customer email address (important to have proper data to get order confirmation email)'),
     firstName: z.string().describe('Customer first name'),
     lastName: z.string().describe('Customer last name'),
     salutation: z.string().optional().describe('Customer salutation (Mr, Mrs, Ms)'),
@@ -193,7 +192,7 @@ async function checkout(args: z.infer<typeof CheckoutSchema>) {
 export const checkoutTool: SprykerTool = {
   name: 'checkout',
   description: 'Process checkout for customer\'s cart',
-  inputSchema: zodToJsonSchema(CheckoutSchema) as any,
+  inputSchema: z.toJSONSchema(CheckoutSchema) as any,
   handler: async (args: Record<string, unknown>) => {
     const validatedArgs = CheckoutSchema.parse(args);
     return await checkout(validatedArgs);

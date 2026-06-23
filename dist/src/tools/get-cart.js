@@ -2,7 +2,6 @@
  * Get Cart Tool
  */
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import { ApiError, SprykerApiService } from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 const GetCartSchema = z.object({
@@ -83,7 +82,7 @@ async function getCart(args) {
 export const getCartTool = {
     name: 'get-cart',
     description: 'Get customer\'s shopping cart contents',
-    inputSchema: zodToJsonSchema(GetCartSchema),
+    inputSchema: z.toJSONSchema(GetCartSchema),
     handler: async (args) => {
         const validatedArgs = GetCartSchema.parse(args);
         return await getCart(validatedArgs);

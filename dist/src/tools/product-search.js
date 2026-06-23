@@ -5,7 +5,6 @@
  * and search criteria.
  */
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import { ApiError, SprykerApiService } from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 /**
@@ -177,7 +176,7 @@ async function searchProducts(args) {
 export const productSearchTool = {
     name: 'product-search',
     description: 'Search for abstract products catalog with filters and pagination',
-    inputSchema: zodToJsonSchema(ProductSearchSchema),
+    inputSchema: z.toJSONSchema(ProductSearchSchema),
     handler: async (args) => {
         const validatedArgs = ProductSearchSchema.parse(args);
         return await searchProducts(validatedArgs);

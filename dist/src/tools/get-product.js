@@ -4,7 +4,6 @@
  * Retrieves detailed information about a specific product by SKU
  */
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import { ApiError, SprykerApiService } from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 const GetProductSchema = z.object({
@@ -82,7 +81,7 @@ async function getProduct(args) {
 export const getProductTool = {
     name: 'get-product',
     description: 'Get detailed abstract product information by SKU including attributes, concrete products(to add to cart), images, pricing, and availability.',
-    inputSchema: zodToJsonSchema(GetProductSchema),
+    inputSchema: z.toJSONSchema(GetProductSchema),
     handler: async (args) => {
         const validatedArgs = GetProductSchema.parse(args);
         return await getProduct(validatedArgs);

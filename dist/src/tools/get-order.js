@@ -2,7 +2,6 @@
  * Get Order Tool
  */
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import { ApiError, SprykerApiService } from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 const GetOrderSchema = z.object({
@@ -107,7 +106,7 @@ async function getOrder(args) {
 export const getOrderTool = {
     name: 'get-order',
     description: 'Retrieve order details and history',
-    inputSchema: zodToJsonSchema(GetOrderSchema),
+    inputSchema: z.toJSONSchema(GetOrderSchema),
     handler: async (args) => {
         const validatedArgs = GetOrderSchema.parse(args);
         return await getOrder(validatedArgs);

@@ -4,7 +4,6 @@
  * Adds products to a customer's shopping cart
  */
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import { ApiError, SprykerApiService } from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 /**
@@ -105,7 +104,7 @@ async function addToCart(args) {
 export const addToCartTool = {
     name: 'add-to-cart',
     description: 'Add a concrete product to the logged in customer\'s shopping cart',
-    inputSchema: zodToJsonSchema(AddToCartSchema),
+    inputSchema: z.toJSONSchema(AddToCartSchema),
     handler: async (args) => {
         const validatedArgs = AddToCartSchema.parse(args);
         return await addToCart(validatedArgs);

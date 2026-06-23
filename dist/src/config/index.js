@@ -21,7 +21,7 @@ const envSchema = z.object({
     MCP_HTTP_HOST: z.string().default('localhost'),
     MCP_HTTP_ENDPOINT: z.string().default('/mcp'),
     // Spryker API configuration
-    SPRYKER_API_BASE_URL: z.string().url().default('https://glue.eu.spryker.local'),
+    SPRYKER_API_BASE_URL: z.url().default('https://glue.eu.spryker.local'),
     SPRYKER_API_TIMEOUT: z.coerce.number().positive().default(30000),
     SPRYKER_API_RETRY_ATTEMPTS: z.coerce.number().nonnegative().default(3),
     SPRYKER_API_RETRY_DELAY: z.coerce.number().positive().default(1000),
@@ -43,7 +43,7 @@ export const config = {
     // Server settings
     server: {
         name: 'spryker-mcp-server',
-        version: '0.0.1',
+        version: '0.1.0',
         environment: env.NODE_ENV,
         logLevel: env.LOG_LEVEL,
     },

@@ -2,7 +2,6 @@
  * Remove From Cart Tool
  */
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import { ApiError, SprykerApiService } from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 const RemoveFromCartSchema = z.object({
@@ -51,7 +50,7 @@ async function removeFromCart(args) {
 export const removeFromCartTool = {
     name: 'remove-from-cart',
     description: 'Remove an item from the shopping cart',
-    inputSchema: zodToJsonSchema(RemoveFromCartSchema),
+    inputSchema: z.toJSONSchema(RemoveFromCartSchema),
     handler: async (args) => {
         const validatedArgs = RemoveFromCartSchema.parse(args);
         return await removeFromCart(validatedArgs);

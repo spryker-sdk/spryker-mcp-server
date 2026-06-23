@@ -7,7 +7,7 @@ export interface SprykerTool {
   description: string;
   inputSchema: {
     type: 'object';
-    properties: Record<string, unknown>;
+    properties: Record<string, object>;
     required?: string[];
   };
   handler: (args: Record<string, unknown>) => Promise<{

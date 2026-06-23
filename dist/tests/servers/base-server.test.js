@@ -89,7 +89,7 @@ describe('BaseServer', () => {
         it('should create server instance with correct configuration', () => {
             expect(Server).toHaveBeenCalledWith({
                 name: 'spryker-mcp-server',
-                version: '0.0.1',
+                version: '0.1.0',
             }, {
                 capabilities: {
                     tools: {},
