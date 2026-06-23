@@ -29,6 +29,12 @@ import { getProductReviewsTool } from './get-product-reviews.js';
 import { getCategoryTreeTool } from './get-category-tree.js';
 import { getCategoryTool } from './get-category.js';
 import { searchSuggestionsTool } from './search-suggestions.js';
+import { addCartVoucherTool } from './add-cart-voucher.js';
+import { removeCartVoucherTool } from './remove-cart-voucher.js';
+import { getWishlistsTool } from './get-wishlists.js';
+import { createWishlistTool } from './create-wishlist.js';
+import { addToWishlistTool } from './add-to-wishlist.js';
+import { wishlistToCartTool } from './wishlist-to-cart.js';
 
 import { SprykerTool } from './types.js';
 
@@ -114,6 +120,12 @@ export class ToolRegistry {
       getCategoryTreeTool,
       getCategoryTool,
       searchSuggestionsTool,
+      addCartVoucherTool,
+      removeCartVoucherTool,
+      getWishlistsTool,
+      createWishlistTool,
+      addToWishlistTool,
+      wishlistToCartTool,
     ];
     
     tools.forEach(tool => this.registerTool(tool));
