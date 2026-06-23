@@ -13,6 +13,7 @@ const RegisterCustomerSchema = z.object({
     firstName: z.string().describe('Customer first name'),
     lastName: z.string().describe('Customer last name'),
     salutation: z.string().optional().describe('Salutation (Mr, Mrs, Ms, Dr)'),
+    gender: z.string().optional().describe('Gender (Male/Female) — required by some Spryker configurations'),
     acceptedTerms: z.boolean().default(true).describe('Whether the customer accepted the terms and conditions'),
 });
 async function registerCustomer(args) {
@@ -24,6 +25,7 @@ async function registerCustomer(args) {
                 type: 'customers',
                 attributes: {
                     ...(args.salutation ? { salutation: args.salutation } : {}),
+                    ...(args.gender ? { gender: args.gender } : {}),
                     firstName: args.firstName,
                     lastName: args.lastName,
                     email: args.email,

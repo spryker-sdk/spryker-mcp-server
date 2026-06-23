@@ -61,6 +61,11 @@ describe('registerCustomerTool', () => {
         const body = mockApiService.post.mock.calls[0][1];
         expect(body.data.attributes.salutation).toBeUndefined();
     });
+    it('should include gender when provided', async () => {
+        mockApiService.post.mockResolvedValue({ status: 201, data: { data: {} } });
+        await registerCustomerTool.handler({ ...validArgs, gender: 'Female' });
+        expect(mockApiService.post.mock.calls[0][1].data.attributes.gender).toBe('Female');
+    });
     it('should handle ApiError with response data', async () => {
         mockApiService.post.mockRejectedValue(new ApiError('exists', 422, 'Unprocessable', ['email taken']));
         const result = await registerCustomerTool.handler(validArgs);
