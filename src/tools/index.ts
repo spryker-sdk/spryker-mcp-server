@@ -26,6 +26,9 @@ import { getConcreteProductTool } from './get-concrete-product.js';
 import { getProductAvailabilityTool } from './get-product-availability.js';
 import { getProductPricesTool } from './get-product-prices.js';
 import { getProductReviewsTool } from './get-product-reviews.js';
+import { getCategoryTreeTool } from './get-category-tree.js';
+import { getCategoryTool } from './get-category.js';
+import { searchSuggestionsTool } from './search-suggestions.js';
 
 import { SprykerTool } from './types.js';
 
@@ -108,6 +111,9 @@ export class ToolRegistry {
       getProductAvailabilityTool,
       getProductPricesTool,
       getProductReviewsTool,
+      getCategoryTreeTool,
+      getCategoryTool,
+      searchSuggestionsTool,
     ];
     
     tools.forEach(tool => this.registerTool(tool));

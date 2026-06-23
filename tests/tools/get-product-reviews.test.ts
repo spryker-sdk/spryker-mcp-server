@@ -68,6 +68,13 @@ describe('getProductReviewsTool', () => {
     expect(JSON.parse(result.content[0]!.text).success).toBe(false);
   });
 
+  it('should handle non-Error rejection', async () => {
+    mockApiService.get.mockRejectedValue('string error');
+    const result = await getProductReviewsTool.handler({ sku: 'X' });
+    expect('isError' in result && result.isError).toBe(true);
+    expect(JSON.parse(result.content[0]!.text).message).toBe('Unknown error occurred');
+  });
+
   it('should validate input', async () => {
     await expect(getProductReviewsTool.handler({})).rejects.toThrow();
   });

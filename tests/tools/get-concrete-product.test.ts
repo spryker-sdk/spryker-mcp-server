@@ -103,6 +103,13 @@ describe('getConcreteProductTool', () => {
       expect(response.responseData).toEqual(['missing']);
     });
 
+    it('should handle non-Error rejection', async () => {
+      mockApiService.get.mockRejectedValue('string error');
+      const result = await getConcreteProductTool.handler(validArgs);
+      expect('isError' in result && result.isError).toBe(true);
+      expect(JSON.parse(result.content[0]!.text).message).toBe('Unknown error occurred');
+    });
+
     it('should validate input arguments', async () => {
       await expect(getConcreteProductTool.handler({ sku: 123 })).rejects.toThrow();
     });
