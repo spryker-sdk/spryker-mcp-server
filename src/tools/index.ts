@@ -35,6 +35,14 @@ import { getWishlistsTool } from './get-wishlists.js';
 import { createWishlistTool } from './create-wishlist.js';
 import { addToWishlistTool } from './add-to-wishlist.js';
 import { wishlistToCartTool } from './wishlist-to-cart.js';
+import { registerCustomerTool } from './register-customer.js';
+import { refreshTokenTool } from './refresh-token.js';
+import {
+  getAddressesTool,
+  addAddressTool,
+  updateAddressTool,
+  deleteAddressTool,
+} from './customer-addresses.js';
 
 import { SprykerTool } from './types.js';
 
@@ -126,6 +134,12 @@ export class ToolRegistry {
       createWishlistTool,
       addToWishlistTool,
       wishlistToCartTool,
+      registerCustomerTool,
+      refreshTokenTool,
+      getAddressesTool,
+      addAddressTool,
+      updateAddressTool,
+      deleteAddressTool,
     ];
     
     tools.forEach(tool => this.registerTool(tool));
