@@ -330,7 +330,7 @@ describe('Individual Tools', () => {
             const result = await getProductTool.handler({
                 sku: 'SKU-001'
             });
-            expect(mockGet).toHaveBeenCalledWith('abstract-products/SKU-001?include=abstract-product-image-sets,abstract-product-availabilities,abstract-product-prices,category-nodes');
+            expect(mockGet).toHaveBeenCalledWith('abstract-products/SKU-001?include=concrete-products,abstract-product-image-sets,abstract-product-availabilities,abstract-product-prices,category-nodes');
             expect(result.content).toHaveLength(1);
             expect(result.content[0]?.text).toContain('"success": true');
             expect(result.content).toHaveLength(1);
@@ -364,7 +364,7 @@ describe('Individual Tools', () => {
             const result = await getProductTool.handler({
                 sku: 'ABSTRACT-001'
             });
-            expect(mockGet).toHaveBeenCalledWith('abstract-products/ABSTRACT-001?include=abstract-product-image-sets,abstract-product-availabilities,abstract-product-prices,category-nodes');
+            expect(mockGet).toHaveBeenCalledWith('abstract-products/ABSTRACT-001?include=concrete-products,abstract-product-image-sets,abstract-product-availabilities,abstract-product-prices,category-nodes');
             expect(result.content).toHaveLength(1);
             expect(result.content[0]?.text).toContain('"success": true');
             expect(result.content).toHaveLength(1);
