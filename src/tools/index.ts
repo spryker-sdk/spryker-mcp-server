@@ -22,6 +22,10 @@ import { removeFromCartTool } from './remove-from-cart.js';
 import { updateCartItemTool } from './update-cart-item.js';
 import { getOrderTool } from './get-order.js';
 import { getCheckoutDataTool } from './get-checkout-data.js';
+import { getConcreteProductTool } from './get-concrete-product.js';
+import { getProductAvailabilityTool } from './get-product-availability.js';
+import { getProductPricesTool } from './get-product-prices.js';
+import { getProductReviewsTool } from './get-product-reviews.js';
 
 import { SprykerTool } from './types.js';
 
@@ -100,6 +104,10 @@ export class ToolRegistry {
       updateCartItemTool,
       getOrderTool,
       getCheckoutDataTool,
+      getConcreteProductTool,
+      getProductAvailabilityTool,
+      getProductPricesTool,
+      getProductReviewsTool,
     ];
     
     tools.forEach(tool => this.registerTool(tool));

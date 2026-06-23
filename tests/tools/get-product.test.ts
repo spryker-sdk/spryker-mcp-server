@@ -143,7 +143,7 @@ describe('getProductTool', () => {
       const result = await getProductTool.handler(validArgs);
 
       expect(mockApiService.get).toHaveBeenCalledWith(
-        'abstract-products/PROD-123?include=abstract-product-image-sets,abstract-product-availabilities,abstract-product-prices,category-nodes'
+        'abstract-products/PROD-123?include=concrete-products,abstract-product-image-sets,abstract-product-availabilities,abstract-product-prices,category-nodes'
       );
       expect(mockLogger.info).toHaveBeenCalledWith('Retrieving product details', { sku: 'PROD-123' });
 

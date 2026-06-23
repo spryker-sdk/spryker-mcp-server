@@ -69,12 +69,13 @@ async function getProduct(args: z.infer<typeof GetProductSchema>) {
         id: string;
         attributes: unknown;
       }>;
-    }>(`abstract-products/${args.sku}?include=abstract-product-image-sets,abstract-product-availabilities,abstract-product-prices,category-nodes`);
+    }>(`abstract-products/${args.sku}?include=concrete-products,abstract-product-image-sets,abstract-product-availabilities,abstract-product-prices,category-nodes`);
 
     const product = response.data.data;
     const included = response.data.included || [];
 
     // Extract related data from included
+    const concreteProducts = included.filter(item => item.type === 'concrete-products');
     const images = included.filter(item => item.type === 'abstract-product-image-sets');
     const availability = included.filter(item => item.type === 'abstract-product-availabilities');
     const prices = included.filter(item => item.type === 'abstract-product-prices');
@@ -99,6 +100,10 @@ async function getProduct(args: z.infer<typeof GetProductSchema>) {
             attributeMap: product.attributes.attributeMap,
             url: product.attributes.url,
           },
+          concreteProducts: concreteProducts.map(concrete => ({
+            id: concrete.id,
+            attributes: concrete.attributes,
+          })),
           images: images.map(img => ({
             id: img.id,
             attributes: img.attributes,
