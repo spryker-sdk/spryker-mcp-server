@@ -2,7 +2,6 @@
  * Authentication Tool
  */
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import { ApiError, SprykerApiService } from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 const AuthenticateSchema = z.object({
@@ -80,7 +79,7 @@ async function authenticate(args) {
 export const authenticateTool = {
     name: 'authenticate',
     description: 'Authenticate a customer and get access token. Generate a guest token if no credentials are provided.',
-    inputSchema: zodToJsonSchema(AuthenticateSchema),
+    inputSchema: z.toJSONSchema(AuthenticateSchema),
     handler: async (args) => {
         const validatedArgs = AuthenticateSchema.parse(args);
         return await authenticate(validatedArgs);

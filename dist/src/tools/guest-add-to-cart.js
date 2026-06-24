@@ -4,7 +4,6 @@
  * Adds products to a guest user's shopping cart
  */
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import { ApiError, SprykerApiService } from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 const GuestAddToCartSchema = z.object({
@@ -56,7 +55,7 @@ async function guestAddToCart(args) {
 export const guestAddToCartTool = {
     name: 'guest-add-to-cart',
     description: 'Adds a Concrete Product to guest cart for anonymous checkout',
-    inputSchema: zodToJsonSchema(GuestAddToCartSchema),
+    inputSchema: z.toJSONSchema(GuestAddToCartSchema),
     handler: async (args) => {
         const validatedArgs = GuestAddToCartSchema.parse(args);
         return await guestAddToCart(validatedArgs);

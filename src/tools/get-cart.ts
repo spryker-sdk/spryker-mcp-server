@@ -3,7 +3,6 @@
  */
 
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import {ApiError, SprykerApiService} from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 import type { SprykerTool } from './types.js';
@@ -91,7 +90,7 @@ async function getCart(args: z.infer<typeof GetCartSchema>) {
 export const getCartTool: SprykerTool = {
   name: 'get-cart',
   description: 'Get customer\'s shopping cart contents',
-  inputSchema: zodToJsonSchema(GetCartSchema) as any,
+  inputSchema: z.toJSONSchema(GetCartSchema) as any,
   handler: async (args: Record<string, unknown>) => {
     const validatedArgs = GetCartSchema.parse(args);
     return await getCart(validatedArgs);

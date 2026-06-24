@@ -54,7 +54,7 @@ describe('Config module edge cases', () => {
     // Import config with no environment variables
     const { config } = require('../../src/config/index.js');
 
-    expect(config.api.baseUrl).toBe('https://glue.de.scos-b2c.sh01.demo-spryker.com');
+    expect(config.api.baseUrl).toBe('https://glue.eu.spryker.local');
     expect(config.api.timeout).toBe(30000);
     expect(config.api.retryAttempts).toBe(3);
     expect(config.api.retryDelay).toBe(1000);
@@ -78,6 +78,6 @@ describe('Config module edge cases', () => {
     // Should throw validation error for invalid numeric values
     expect(() => {
       const { config } = require('../../src/config/index.js');
-    }).toThrow('Expected number, received nan');
+    }).toThrow(/expected number/i);
   });
 });

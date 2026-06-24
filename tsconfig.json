@@ -24,7 +24,6 @@
     "sourceMap": true,
     "removeComments": false,
     "importHelpers": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,

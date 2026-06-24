@@ -112,7 +112,7 @@ describe('BaseServer', () => {
       expect(Server).toHaveBeenCalledWith(
         {
           name: 'spryker-mcp-server',
-          version: '0.0.1',
+          version: '0.1.0',
         },
         {
           capabilities: {

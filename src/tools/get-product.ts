@@ -5,7 +5,6 @@
  */
 
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import {ApiError, SprykerApiService} from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 import type { SprykerTool } from './types.js';
@@ -142,7 +141,7 @@ async function getProduct(args: z.infer<typeof GetProductSchema>) {
 export const getProductTool: SprykerTool = {
   name: 'get-product',
   description: 'Get detailed abstract product information by SKU including attributes, concrete products(to add to cart), images, pricing, and availability.',
-  inputSchema: zodToJsonSchema(GetProductSchema) as any,
+  inputSchema: z.toJSONSchema(GetProductSchema) as any,
   handler: async (args: Record<string, unknown>) => {
     const validatedArgs = GetProductSchema.parse(args);
     return await getProduct(validatedArgs);

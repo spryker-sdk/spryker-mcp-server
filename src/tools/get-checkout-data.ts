@@ -3,7 +3,6 @@
  */
 
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import {ApiError, SprykerApiService} from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 import type { SprykerTool } from './types.js';
@@ -108,7 +107,7 @@ async function getCheckoutData(args: z.infer<typeof GetCheckoutDataSchema>) {
 export const getCheckoutDataTool: SprykerTool = {
   name: 'get-checkout-data',
   description: 'Get checkout data including payment methods, shipment methods, and customer addresses',
-  inputSchema: zodToJsonSchema(GetCheckoutDataSchema) as any,
+  inputSchema: z.toJSONSchema(GetCheckoutDataSchema) as any,
   handler: async (args: Record<string, unknown>) => {
     const validatedArgs = GetCheckoutDataSchema.parse(args);
     return await getCheckoutData(validatedArgs);

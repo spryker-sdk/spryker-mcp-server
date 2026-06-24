@@ -29,7 +29,7 @@ declare const env: {
 export declare const config: {
     readonly server: {
         readonly name: "spryker-mcp-server";
-        readonly version: "0.0.1";
+        readonly version: "0.1.0";
         readonly environment: "development" | "production" | "test";
         readonly logLevel: "error" | "warn" | "info" | "debug";
     };

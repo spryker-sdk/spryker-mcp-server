@@ -17,8 +17,7 @@
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { 
-  CallToolRequestSchema, 
-  ListToolsRequestSchema, 
+  CallToolRequestSchema,
   ListPromptsRequestSchema,
   GetPromptRequestSchema,
   SetLevelRequestSchema
@@ -108,8 +107,8 @@ function createHandlerRegistrar(): HandlerRegistrar {
         
         return {
           message: `Log level changed from '${previousLevel}' to '${newLevel}'`,
-          previousLevel: previousLevel,
-          newLevel: newLevel,
+          previousLevel,
+          newLevel,
           requestedLevel: level,
           timestamp: new Date().toISOString()
         };
@@ -153,7 +152,7 @@ function parseArgs(): ServerOptions {
 
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
-      case '--transport':
+      case '--transport': {
         const transport = args[++i] as TransportType;
         if (['stdio', 'http', 'sse'].includes(transport)) {
           options.transport = transport;
@@ -162,7 +161,8 @@ function parseArgs(): ServerOptions {
           process.exit(1);
         }
         break;
-      case '--port':
+      }
+      case '--port': {
         const portStr = args[++i];
         if (!portStr) {
           logger.error('Port number required');
@@ -174,7 +174,8 @@ function parseArgs(): ServerOptions {
           process.exit(1);
         }
         break;
-      case '--host':
+      }
+      case '--host': {
         const host = args[++i];
         if (!host) {
           logger.error('Host required');
@@ -182,7 +183,8 @@ function parseArgs(): ServerOptions {
         }
         options.httpHost = host;
         break;
-      case '--endpoint':
+      }
+      case '--endpoint': {
         const endpoint = args[++i];
         if (!endpoint) {
           logger.error('Endpoint required');
@@ -190,6 +192,7 @@ function parseArgs(): ServerOptions {
         }
         options.httpEndpoint = endpoint;
         break;
+      }
       case '--help':
         console.error(`
 Spryker MCP Server

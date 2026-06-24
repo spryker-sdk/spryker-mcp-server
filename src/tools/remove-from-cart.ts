@@ -3,7 +3,6 @@
  */
 
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import {ApiError, SprykerApiService} from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 import type { SprykerTool } from './types.js';
@@ -66,7 +65,7 @@ async function removeFromCart(args: z.infer<typeof RemoveFromCartSchema>) {
 export const removeFromCartTool: SprykerTool = {
   name: 'remove-from-cart',
   description: 'Remove an item from the shopping cart',
-  inputSchema: zodToJsonSchema(RemoveFromCartSchema) as any,
+  inputSchema: z.toJSONSchema(RemoveFromCartSchema) as any,
   handler: async (args: Record<string, unknown>) => {
     const validatedArgs = RemoveFromCartSchema.parse(args);
     return await removeFromCart(validatedArgs);

@@ -2,7 +2,6 @@
  * Get Checkout Data Tool
  */
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
 import { ApiError, SprykerApiService } from '../services/spryker-api.js';
 import { logger } from '../utils/logger.js';
 const GetCheckoutDataSchema = z.object({
@@ -85,7 +84,7 @@ async function getCheckoutData(args) {
 export const getCheckoutDataTool = {
     name: 'get-checkout-data',
     description: 'Get checkout data including payment methods, shipment methods, and customer addresses',
-    inputSchema: zodToJsonSchema(GetCheckoutDataSchema),
+    inputSchema: z.toJSONSchema(GetCheckoutDataSchema),
     handler: async (args) => {
         const validatedArgs = GetCheckoutDataSchema.parse(args);
         return await getCheckoutData(validatedArgs);
