@@ -237,14 +237,29 @@ See [VS Code MCP Extension](https://aka.ms/vscode-add-mcp) for more details on M
 
 ## 🔧 Available Tools
 
-The server provides 11 MCP tools for e-commerce operations:
+The server provides 30 MCP tools for e-commerce operations:
 
 ### Product Management
 - **Product Search** (`product-search`) - Advanced product catalog search with filtering
-- **Product Details** (`get-product`) - Retrieve detailed product information
+- **Search Suggestions** (`search-suggestions`) - Autocomplete suggestions for a partial query
+- **Product Details** (`get-product`) - Detailed abstract product info, including its concrete variants
+- **Concrete Product** (`get-concrete-product`) - Detailed concrete product (variant) info by SKU
+- **Product Availability** (`get-product-availability`) - Stock for an abstract or concrete product
+- **Product Prices** (`get-product-prices`) - Prices (incl. volume prices) for an abstract or concrete product
+- **Product Reviews** (`get-product-reviews`) - Customer reviews and ratings
 
-### Authentication & User Management  
+### Catalog Navigation
+- **Category Tree** (`get-category-tree`) - Full category tree for browsing
+- **Category** (`get-category`) - Category node by ID
+
+### Authentication & User Management
 - **Authentication** (`authenticate`) - Customer login and guest session creation
+- **Register Customer** (`register-customer`) - Create a customer account
+- **Refresh Token** (`refresh-token`) - Exchange a refresh token for a new access token
+- **Get Addresses** (`get-addresses`) - List a customer's saved addresses
+- **Add Address** (`add-address`) - Add an address to the address book
+- **Update Address** (`update-address`) - Update a saved address
+- **Delete Address** (`delete-address`) - Delete a saved address
 
 ### Shopping Cart Operations
 - **Add to Cart** (`add-to-cart`) - Add products to authenticated customer carts
@@ -252,6 +267,14 @@ The server provides 11 MCP tools for e-commerce operations:
 - **Get Cart** (`get-cart`) - Retrieve cart contents and totals
 - **Remove from Cart** (`remove-from-cart`) - Remove items from carts
 - **Update Cart Item** (`update-cart-item`) - Modify cart item quantities
+- **Add Cart Voucher** (`add-cart-voucher`) - Apply a discount/voucher code (registered or guest cart)
+- **Remove Cart Voucher** (`remove-cart-voucher`) - Remove a discount/voucher code
+
+### Wishlists
+- **Get Wishlists** (`get-wishlists`) - List wishlists, or one wishlist with its items
+- **Create Wishlist** (`create-wishlist`) - Create a new wishlist
+- **Add to Wishlist** (`add-to-wishlist`) - Add a concrete product to a wishlist
+- **Wishlist to Cart** (`wishlist-to-cart`) - Move all wishlist items into a cart
 
 ### Order Processing & Checkout
 - **Get Checkout Data** (`get-checkout-data`) - Retrieve payment methods and shipping options
@@ -548,7 +571,15 @@ All tools return standardized error responses:
 
 ## 📖 Changelog
 
-### Version 0.0.1 (Current)
+### Version 0.1.0 (Current)
+- ✅ Dependency stack updated to latest majors (zod 4 with native JSON schema, TypeScript 6, ESLint 10 flat config, Jest 30); removed unused `axios`; added the previously-undeclared `zod-to-json-schema` usage by migrating to zod's native `z.toJSONSchema()`
+- ✅ Expanded commerce coverage from 11 to 30 tools:
+  - Richer products: `get-concrete-product`, `get-product-availability`, `get-product-prices`, `get-product-reviews`, and concrete-variant resolution in `get-product`
+  - Catalog navigation: `get-category-tree`, `get-category`, `search-suggestions`
+  - Cart & promotions: `add-cart-voucher`, `remove-cart-voucher`, `get-wishlists`, `create-wishlist`, `add-to-wishlist`, `wishlist-to-cart`
+  - Customer & orders: `register-customer`, `refresh-token`, `get-addresses`, `add-address`, `update-address`, `delete-address`
+
+### Version 0.0.1
 - ✅ Initial TypeScript implementation
 - ✅ Core Spryker API integration
 - ✅ Eleven essential MCP tools (product search, authentication, cart management, checkout, order management)

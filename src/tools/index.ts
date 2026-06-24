@@ -22,6 +22,27 @@ import { removeFromCartTool } from './remove-from-cart.js';
 import { updateCartItemTool } from './update-cart-item.js';
 import { getOrderTool } from './get-order.js';
 import { getCheckoutDataTool } from './get-checkout-data.js';
+import { getConcreteProductTool } from './get-concrete-product.js';
+import { getProductAvailabilityTool } from './get-product-availability.js';
+import { getProductPricesTool } from './get-product-prices.js';
+import { getProductReviewsTool } from './get-product-reviews.js';
+import { getCategoryTreeTool } from './get-category-tree.js';
+import { getCategoryTool } from './get-category.js';
+import { searchSuggestionsTool } from './search-suggestions.js';
+import { addCartVoucherTool } from './add-cart-voucher.js';
+import { removeCartVoucherTool } from './remove-cart-voucher.js';
+import { getWishlistsTool } from './get-wishlists.js';
+import { createWishlistTool } from './create-wishlist.js';
+import { addToWishlistTool } from './add-to-wishlist.js';
+import { wishlistToCartTool } from './wishlist-to-cart.js';
+import { registerCustomerTool } from './register-customer.js';
+import { refreshTokenTool } from './refresh-token.js';
+import {
+  getAddressesTool,
+  addAddressTool,
+  updateAddressTool,
+  deleteAddressTool,
+} from './customer-addresses.js';
 
 import { SprykerTool } from './types.js';
 
@@ -100,6 +121,25 @@ export class ToolRegistry {
       updateCartItemTool,
       getOrderTool,
       getCheckoutDataTool,
+      getConcreteProductTool,
+      getProductAvailabilityTool,
+      getProductPricesTool,
+      getProductReviewsTool,
+      getCategoryTreeTool,
+      getCategoryTool,
+      searchSuggestionsTool,
+      addCartVoucherTool,
+      removeCartVoucherTool,
+      getWishlistsTool,
+      createWishlistTool,
+      addToWishlistTool,
+      wishlistToCartTool,
+      registerCustomerTool,
+      refreshTokenTool,
+      getAddressesTool,
+      addAddressTool,
+      updateAddressTool,
+      deleteAddressTool,
     ];
     
     tools.forEach(tool => this.registerTool(tool));

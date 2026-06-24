@@ -41,9 +41,11 @@ async function searchProducts(args) {
         else {
             queryParams.q = '';
         }
-        // Add pagination parameters
-        queryParams['ipp'] = args.ipp.toString();
-        queryParams['page'] = args.page.toString();
+        // Add pagination parameters. Spryker Glue catalog-search uses JSON:API-style
+        // offset/limit paging (a scalar `page` is rejected with HTTP 422). `page` is
+        // treated as a 0-based page index, so offset = page * itemsPerPage.
+        queryParams['page[limit]'] = args.ipp.toString();
+        queryParams['page[offset]'] = (args.page * args.ipp).toString();
         // Add sorting parameter if specified
         if (args.sort) {
             queryParams['sort'] = args.sort.toString();

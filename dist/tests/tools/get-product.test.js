@@ -127,7 +127,7 @@ describe('getProductTool', () => {
         it('should successfully retrieve product details', async () => {
             mockApiService.get.mockResolvedValue(mockProductResponse);
             const result = await getProductTool.handler(validArgs);
-            expect(mockApiService.get).toHaveBeenCalledWith('abstract-products/PROD-123?include=abstract-product-image-sets,abstract-product-availabilities,abstract-product-prices,category-nodes');
+            expect(mockApiService.get).toHaveBeenCalledWith('abstract-products/PROD-123?include=concrete-products,abstract-product-image-sets,abstract-product-availabilities,abstract-product-prices,category-nodes');
             expect(mockLogger.info).toHaveBeenCalledWith('Retrieving product details', { sku: 'PROD-123' });
             expect(result.content).toHaveLength(1);
             expect(result.content[0]?.type).toBe('text');

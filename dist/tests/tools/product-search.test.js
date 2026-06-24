@@ -79,8 +79,8 @@ describe('Product Search Tool', () => {
             expect(mockRequest).toHaveBeenCalledWith('GET', 'catalog-search', {
                 params: {
                     q: 'test',
-                    ipp: '20',
-                    page: '0'
+                    'page[limit]': '20',
+                    'page[offset]': '0'
                 }
             });
             expect(result.content).toHaveLength(1);
@@ -112,8 +112,8 @@ describe('Product Search Tool', () => {
             expect(mockRequest).toHaveBeenCalledWith('GET', 'catalog-search', {
                 params: {
                     q: '',
-                    ipp: '10',
-                    page: '0'
+                    'page[limit]': '10',
+                    'page[offset]': '0'
                 }
             });
         });
@@ -137,8 +137,8 @@ describe('Product Search Tool', () => {
             expect(mockRequest).toHaveBeenCalledWith('GET', 'catalog-search', {
                 params: {
                     q: '',
-                    ipp: '5',
-                    page: '0'
+                    'page[limit]': '5',
+                    'page[offset]': '0'
                 }
             });
         });
@@ -176,8 +176,8 @@ describe('Product Search Tool', () => {
             expect(mockRequest).toHaveBeenCalledWith('GET', 'catalog-search', {
                 params: {
                     q: '',
-                    ipp: '20',
-                    page: '0',
+                    'page[limit]': '20',
+                    'page[offset]': '0',
                     brand: 'TestBrand',
                     category: 'electronics'
                 }
@@ -209,8 +209,8 @@ describe('Product Search Tool', () => {
             expect(mockRequest).toHaveBeenCalledWith('GET', 'catalog-search', {
                 params: {
                     q: '',
-                    ipp: '20',
-                    page: '0',
+                    'page[limit]': '20',
+                    'page[offset]': '0',
                     brand: ['Brand1', 'Brand2']
                 }
             });
@@ -249,8 +249,8 @@ describe('Product Search Tool', () => {
             expect(mockRequest).toHaveBeenCalledWith('GET', 'catalog-search', {
                 params: {
                     q: '',
-                    ipp: '20',
-                    page: '0',
+                    'page[limit]': '20',
+                    'page[offset]': '0',
                     'price[min]': '1000',
                     'price[max]': '5000'
                 }
@@ -282,8 +282,8 @@ describe('Product Search Tool', () => {
             expect(mockRequest).toHaveBeenCalledWith('GET', 'catalog-search', {
                 params: {
                     q: '',
-                    ipp: '20',
-                    page: '0',
+                    'page[limit]': '20',
+                    'page[offset]': '0',
                     'price[min]': '1000',
                     'rating[max]': '5'
                 }
@@ -319,8 +319,8 @@ describe('Product Search Tool', () => {
             expect(mockRequest).toHaveBeenCalledWith('GET', 'catalog-search', {
                 params: {
                     q: '',
-                    ipp: '10',
-                    page: '2',
+                    'page[limit]': '10',
+                    'page[offset]': '20',
                     sort: 'price_asc'
                 }
             });
