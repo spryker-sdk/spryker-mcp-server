@@ -63,6 +63,7 @@ async function createWishlist(args: z.infer<typeof CreateWishlistSchema>) {
 export const createWishlistTool: SprykerTool = {
   name: 'create-wishlist',
   description: 'Create a new wishlist for a registered customer.',
+  availability: { models: ['b2c'] },
   inputSchema: z.toJSONSchema(CreateWishlistSchema) as any,
   handler: async (args: Record<string, unknown>) => {
     const validatedArgs = CreateWishlistSchema.parse(args);

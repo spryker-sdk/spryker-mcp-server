@@ -67,6 +67,7 @@ async function addToWishlist(args: z.infer<typeof AddToWishlistSchema>) {
 export const addToWishlistTool: SprykerTool = {
   name: 'add-to-wishlist',
   description: 'Add a concrete product to a registered customer\'s wishlist.',
+  availability: { models: ['b2c'] },
   inputSchema: z.toJSONSchema(AddToWishlistSchema) as any,
   handler: async (args: Record<string, unknown>) => {
     const validatedArgs = AddToWishlistSchema.parse(args);

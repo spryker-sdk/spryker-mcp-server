@@ -7,6 +7,7 @@
  */
 import { ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import { logger } from '../utils/logger.js';
+import { config } from '../config/index.js';
 // Import tool implementations
 import { productSearchTool } from './product-search.js';
 import { addToCartTool } from './add-to-cart.js';
@@ -35,6 +36,10 @@ import { wishlistToCartTool } from './wishlist-to-cart.js';
 import { registerCustomerTool } from './register-customer.js';
 import { refreshTokenTool } from './refresh-token.js';
 import { getAddressesTool, addAddressTool, updateAddressTool, deleteAddressTool, } from './customer-addresses.js';
+import { getCompanyUsersTool, getBusinessUnitsTool, getCompanyRolesTool, getCompanyTool, } from './b2b-company.js';
+import { getShoppingListsTool, createShoppingListTool, addToShoppingListTool, shoppingListToCartTool, } from './b2b-shopping-lists.js';
+import { getMerchantsTool, getMerchantTool, getProductOffersTool, } from './marketplace.js';
+import { isToolAvailable } from './types.js';
 /**
  * Tool registry class for managing MCP tools
  */
@@ -118,8 +123,31 @@ export class ToolRegistry {
             addAddressTool,
             updateAddressTool,
             deleteAddressTool,
+            // B2B — company & users
+            getCompanyUsersTool,
+            getBusinessUnitsTool,
+            getCompanyRolesTool,
+            getCompanyTool,
+            // B2B — shopping lists
+            getShoppingListsTool,
+            createShoppingListTool,
+            addToShoppingListTool,
+            shoppingListToCartTool,
+            // Marketplace — merchants & offers
+            getMerchantsTool,
+            getMerchantTool,
+            getProductOffersTool,
         ];
-        tools.forEach(tool => this.registerTool(tool));
+        // Filter tools by the configured business model / marketplace capability.
+        const ctx = {
+            businessModel: config.commerce.businessModel,
+            marketplaceEnabled: config.commerce.marketplaceEnabled,
+        };
+        const enabledTools = tools.filter(tool => isToolAvailable(tool, ctx));
+        const skipped = tools.length - enabledTools.length;
+        enabledTools.forEach(tool => this.registerTool(tool));
+        logger.info(`Business model '${ctx.businessModel}' (marketplace: ${ctx.marketplaceEnabled}): ` +
+            `exposing ${enabledTools.length} of ${tools.length} tools (${skipped} hidden)`);
         // Set up MCP server handlers
         server.setRequestHandler(ListToolsRequestSchema, async () => {
             const tools = this.getTools();

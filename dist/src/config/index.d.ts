@@ -18,6 +18,8 @@ declare const env: {
     SPRYKER_API_TIMEOUT: number;
     SPRYKER_API_RETRY_ATTEMPTS: number;
     SPRYKER_API_RETRY_DELAY: number;
+    SPRYKER_BUSINESS_MODEL: "b2c" | "b2b";
+    SPRYKER_MARKETPLACE_ENABLED: boolean;
     RATE_LIMIT_WINDOW_MS: number;
     RATE_LIMIT_MAX_REQUESTS: number;
     SPRYKER_CLIENT_ID?: string | undefined;
@@ -29,7 +31,7 @@ declare const env: {
 export declare const config: {
     readonly server: {
         readonly name: "spryker-mcp-server";
-        readonly version: "0.1.0";
+        readonly version: "0.2.0";
         readonly environment: "development" | "production" | "test";
         readonly logLevel: "error" | "warn" | "info" | "debug";
     };
@@ -46,6 +48,10 @@ export declare const config: {
         readonly timeout: number;
         readonly retryAttempts: number;
         readonly retryDelay: number;
+    };
+    readonly commerce: {
+        readonly businessModel: "b2c" | "b2b";
+        readonly marketplaceEnabled: boolean;
     };
     readonly auth: {
         readonly clientId: string | undefined;
