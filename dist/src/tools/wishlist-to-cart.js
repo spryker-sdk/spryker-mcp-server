@@ -69,6 +69,7 @@ async function wishlistToCart(args) {
 export const wishlistToCartTool = {
     name: 'wishlist-to-cart',
     description: 'Move all items from a registered customer\'s wishlist into a cart.',
+    availability: { models: ['b2c'] },
     inputSchema: z.toJSONSchema(WishlistToCartSchema),
     handler: async (args) => {
         const validatedArgs = WishlistToCartSchema.parse(args);

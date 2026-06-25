@@ -118,10 +118,31 @@ MCP_HTTP_ENDPOINT=/mcp             # HTTP endpoint path
 ### Configuration Schema
 All configuration is validated using Zod schemas:
 
-- `SPRYKER_API_BASE_URL`: Valid HTTPS URL to Spryker Glue API
+- `SPRYKER_API_BASE_URL`: Valid HTTPS URL to Spryker Storefront API
 - `SPRYKER_API_TIMEOUT`: Request timeout in milliseconds (default: 30000)
 - `SPRYKER_API_RETRY_ATTEMPTS`: Number of retry attempts (default: 3)
 - `SPRYKER_API_RETRY_DELAY`: Delay between retries in milliseconds (default: 1000)
+
+### Business model
+
+The server exposes a different set of tools depending on the configured business model. Spryker spans B2C, B2B, and Marketplace, where marketplace is a capability that overlays either B2C or B2B.
+
+- `SPRYKER_BUSINESS_MODEL`: `b2c` (default) or `b2b`. Selects which model-specific tools are exposed (for example, B2C wishlists vs. B2B shopping lists and company tools).
+- `SPRYKER_MARKETPLACE_ENABLED`: `true` / `false` (default `false`). When enabled, marketplace tools (merchants, product offers) are added on top of the selected model.
+
+Tools without a model restriction (catalog search, cart, checkout, orders, customer account) are always available. The server logs how many tools are exposed vs. hidden at startup. Examples:
+
+```bash
+# B2C storefront (default)
+SPRYKER_BUSINESS_MODEL=b2c
+
+# B2B storefront
+SPRYKER_BUSINESS_MODEL=b2b
+
+# B2B marketplace
+SPRYKER_BUSINESS_MODEL=b2b
+SPRYKER_MARKETPLACE_ENABLED=true
+```
 
 ## 🚀 Usage
 
@@ -237,7 +258,7 @@ See [VS Code MCP Extension](https://aka.ms/vscode-add-mcp) for more details on M
 
 ## 🔧 Available Tools
 
-The server provides 30 MCP tools for e-commerce operations:
+The server provides 41 MCP tools for e-commerce operations. Which tools are exposed depends on the configured [business model](#business-model): common tools below are always available, while B2C, B2B, and Marketplace tools are gated by `SPRYKER_BUSINESS_MODEL` / `SPRYKER_MARKETPLACE_ENABLED`.
 
 ### Product Management
 - **Product Search** (`product-search`) - Advanced product catalog search with filtering
@@ -270,7 +291,7 @@ The server provides 30 MCP tools for e-commerce operations:
 - **Add Cart Voucher** (`add-cart-voucher`) - Apply a discount/voucher code (registered or guest cart)
 - **Remove Cart Voucher** (`remove-cart-voucher`) - Remove a discount/voucher code
 
-### Wishlists
+### Wishlists (B2C only)
 - **Get Wishlists** (`get-wishlists`) - List wishlists, or one wishlist with its items
 - **Create Wishlist** (`create-wishlist`) - Create a new wishlist
 - **Add to Wishlist** (`add-to-wishlist`) - Add a concrete product to a wishlist
@@ -280,6 +301,23 @@ The server provides 30 MCP tools for e-commerce operations:
 - **Get Checkout Data** (`get-checkout-data`) - Retrieve payment methods and shipping options
 - **Checkout** (`checkout`) - Process complete order checkout with payment and shipping
 - **Get Order** (`get-order`) - Retrieve order details and history
+
+### B2B — Company & Users (B2B only)
+- **Get Company Users** (`get-company-users`) - List company users for the authenticated customer
+- **Get Business Units** (`get-business-units`) - List company business units
+- **Get Company Roles** (`get-company-roles`) - List company roles
+- **Get Company** (`get-company`) - Get company details by ID
+
+### B2B — Shopping Lists (B2B only)
+- **Get Shopping Lists** (`get-shopping-lists`) - List shopping lists, or one with its items
+- **Create Shopping List** (`create-shopping-list`) - Create a new shopping list
+- **Add to Shopping List** (`add-to-shopping-list`) - Add a concrete product to a shopping list
+- **Shopping List to Cart** (`shopping-list-to-cart`) - Move all shopping list items into a cart
+
+### Marketplace — Merchants & Offers (requires marketplace enabled)
+- **Get Merchants** (`get-merchants`) - List marketplace merchants
+- **Get Merchant** (`get-merchant`) - Get a merchant by reference, including profile
+- **Get Product Offers** (`get-product-offers`) - List seller offers for a concrete product SKU
 
 ### Product Search (`product-search`)
 Search for products with advanced filtering capabilities.
@@ -571,7 +609,15 @@ All tools return standardized error responses:
 
 ## 📖 Changelog
 
-### Version 0.1.0 (Current)
+### Version 0.2.0 (Current)
+- ✅ Business-model-aware tool exposure: `SPRYKER_BUSINESS_MODEL` (b2c|b2b) + `SPRYKER_MARKETPLACE_ENABLED` limit which tools are exposed
+- ✅ Expanded coverage from 30 to 41 tools:
+  - B2B — company & users: `get-company-users`, `get-business-units`, `get-company-roles`, `get-company`
+  - B2B — shopping lists: `get-shopping-lists`, `create-shopping-list`, `add-to-shopping-list`, `shopping-list-to-cart`
+  - Marketplace — merchants & offers: `get-merchants`, `get-merchant`, `get-product-offers`
+  - B2C wishlist tools are now tagged B2C-only
+
+### Version 0.1.0
 - ✅ Dependency stack updated to latest majors (zod 4 with native JSON schema, TypeScript 6, ESLint 10 flat config, Jest 30); removed unused `axios`; added the previously-undeclared `zod-to-json-schema` usage by migrating to zod's native `z.toJSONSchema()`
 - ✅ Expanded commerce coverage from 11 to 30 tools:
   - Richer products: `get-concrete-product`, `get-product-availability`, `get-product-prices`, `get-product-reviews`, and concrete-variant resolution in `get-product`

@@ -55,6 +55,7 @@ async function addToWishlist(args) {
 export const addToWishlistTool = {
     name: 'add-to-wishlist',
     description: 'Add a concrete product to a registered customer\'s wishlist.',
+    availability: { models: ['b2c'] },
     inputSchema: z.toJSONSchema(AddToWishlistSchema),
     handler: async (args) => {
         const validatedArgs = AddToWishlistSchema.parse(args);

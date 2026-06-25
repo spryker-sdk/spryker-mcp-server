@@ -25,6 +25,13 @@ const envSchema = z.object({
     SPRYKER_API_TIMEOUT: z.coerce.number().positive().default(30000),
     SPRYKER_API_RETRY_ATTEMPTS: z.coerce.number().nonnegative().default(3),
     SPRYKER_API_RETRY_DELAY: z.coerce.number().positive().default(1000),
+    // Business model — limits which tools the server exposes.
+    // Marketplace is a capability that overlays either B2C or B2B.
+    SPRYKER_BUSINESS_MODEL: z.enum(['b2c', 'b2b']).default('b2c'),
+    SPRYKER_MARKETPLACE_ENABLED: z
+        .string()
+        .default('false')
+        .transform((value) => value.toLowerCase() === 'true' || value === '1'),
     // Authentication (optional for some operations)
     SPRYKER_CLIENT_ID: z.string().optional(),
     SPRYKER_CLIENT_SECRET: z.string().optional(),
@@ -43,7 +50,7 @@ export const config = {
     // Server settings
     server: {
         name: 'spryker-mcp-server',
-        version: '0.1.0',
+        version: '0.2.0',
         environment: env.NODE_ENV,
         logLevel: env.LOG_LEVEL,
     },
@@ -62,6 +69,11 @@ export const config = {
         timeout: env.SPRYKER_API_TIMEOUT,
         retryAttempts: env.SPRYKER_API_RETRY_ATTEMPTS,
         retryDelay: env.SPRYKER_API_RETRY_DELAY,
+    },
+    // Business model — controls which tools are exposed
+    commerce: {
+        businessModel: env.SPRYKER_BUSINESS_MODEL,
+        marketplaceEnabled: env.SPRYKER_MARKETPLACE_ENABLED,
     },
     // Authentication
     auth: {

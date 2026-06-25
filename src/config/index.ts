@@ -60,7 +60,7 @@ export const config = {
   // Server settings
   server: {
     name: 'spryker-mcp-server',
-    version: '0.1.0',
+    version: '0.2.0',
     environment: env.NODE_ENV,
     logLevel: env.LOG_LEVEL,
   },
