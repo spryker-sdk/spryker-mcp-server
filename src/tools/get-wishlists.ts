@@ -72,6 +72,7 @@ async function getWishlists(args: z.infer<typeof GetWishlistsSchema>) {
 export const getWishlistsTool: SprykerTool = {
   name: 'get-wishlists',
   description: 'Get a registered customer\'s wishlists, or a single wishlist with its items when a UUID is given.',
+  availability: { models: ['b2c'] },
   inputSchema: z.toJSONSchema(GetWishlistsSchema) as any,
   handler: async (args: Record<string, unknown>) => {
     const validatedArgs = GetWishlistsSchema.parse(args);

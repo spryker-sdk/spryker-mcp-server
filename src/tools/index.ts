@@ -9,6 +9,7 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { ListToolsRequestSchema, Tool } from '@modelcontextprotocol/sdk/types.js';
 import { logger } from '../utils/logger.js';
+import { config } from '../config/index.js';
 
 // Import tool implementations
 import { productSearchTool } from './product-search.js';
@@ -44,7 +45,7 @@ import {
   deleteAddressTool,
 } from './customer-addresses.js';
 
-import { SprykerTool } from './types.js';
+import { SprykerTool, isToolAvailable } from './types.js';
 
 /**
  * Tool registry class for managing MCP tools
@@ -141,8 +142,20 @@ export class ToolRegistry {
       updateAddressTool,
       deleteAddressTool,
     ];
-    
-    tools.forEach(tool => this.registerTool(tool));
+
+    // Filter tools by the configured business model / marketplace capability.
+    const ctx = {
+      businessModel: config.commerce.businessModel,
+      marketplaceEnabled: config.commerce.marketplaceEnabled,
+    };
+    const enabledTools = tools.filter(tool => isToolAvailable(tool, ctx));
+    const skipped = tools.length - enabledTools.length;
+
+    enabledTools.forEach(tool => this.registerTool(tool));
+    logger.info(
+      `Business model '${ctx.businessModel}' (marketplace: ${ctx.marketplaceEnabled}): ` +
+      `exposing ${enabledTools.length} of ${tools.length} tools (${skipped} hidden)`
+    );
     
     // Set up MCP server handlers
     server.setRequestHandler(ListToolsRequestSchema, async () => {
