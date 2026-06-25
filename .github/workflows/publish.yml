@@ -1,0 +1,63 @@
+name: Publish to npm
+
+# Publishes the package under the "next" dist-tag when a GitHub Release is
+# published (tag like v0.2.0). Also available via manual dispatch.
+#
+# Requires repository secret NPM_TOKEN: an npm automation token with publish
+# rights to the @spryker-sdk scope.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      dist_tag:
+        description: 'npm dist-tag to publish under'
+        required: true
+        default: 'next'
+
+permissions:
+  contents: read
+  id-token: write # enables npm provenance
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          registry-url: 'https://registry.npmjs.org'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Validate (type-check, lint, test)
+        run: npm run validate
+
+      - name: Verify release tag matches package.json version
+        if: github.event_name == 'release'
+        run: |
+          PKG_VERSION="v$(node -p "require('./package.json').version")"
+          TAG="${{ github.event.release.tag_name }}"
+          if [ "$PKG_VERSION" != "$TAG" ]; then
+            echo "::error::Release tag '$TAG' does not match package.json version '$PKG_VERSION'. Bump the version (and config.server.version) before tagging."
+            exit 1
+          fi
+
+      - name: Resolve dist-tag
+        id: tag
+        run: echo "value=${{ github.event.inputs.dist_tag || 'next' }}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish
+        # npm publish triggers the package's prepublishOnly (clean + build + test),
+        # so the published dist is always freshly built from source.
+        run: npm publish --tag "${{ steps.tag.outputs.value }}" --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
