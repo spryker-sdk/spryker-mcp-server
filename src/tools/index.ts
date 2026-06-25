@@ -44,6 +44,23 @@ import {
   updateAddressTool,
   deleteAddressTool,
 } from './customer-addresses.js';
+import {
+  getCompanyUsersTool,
+  getBusinessUnitsTool,
+  getCompanyRolesTool,
+  getCompanyTool,
+} from './b2b-company.js';
+import {
+  getShoppingListsTool,
+  createShoppingListTool,
+  addToShoppingListTool,
+  shoppingListToCartTool,
+} from './b2b-shopping-lists.js';
+import {
+  getMerchantsTool,
+  getMerchantTool,
+  getProductOffersTool,
+} from './marketplace.js';
 
 import { SprykerTool, isToolAvailable } from './types.js';
 
@@ -141,6 +158,20 @@ export class ToolRegistry {
       addAddressTool,
       updateAddressTool,
       deleteAddressTool,
+      // B2B — company & users
+      getCompanyUsersTool,
+      getBusinessUnitsTool,
+      getCompanyRolesTool,
+      getCompanyTool,
+      // B2B — shopping lists
+      getShoppingListsTool,
+      createShoppingListTool,
+      addToShoppingListTool,
+      shoppingListToCartTool,
+      // Marketplace — merchants & offers
+      getMerchantsTool,
+      getMerchantTool,
+      getProductOffersTool,
     ];
 
     // Filter tools by the configured business model / marketplace capability.
